@@ -2,32 +2,37 @@ var express = require('express'),
     logger  = require('morgan')('dev'),
     path    = require('path'),
     mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
+
+    Schema  = mongoose.Schema,
     bodyParser = require('body-parser'),
     server  = express();
 
 //Todo Model
 var todoSchema = new Schema({
-desc: {
-type: String,
-required: true
-},
-completed: {
-  type: Boolean,
-  required: true
-}
+
+  desc: {
+    type: String,
+    required: true
+  },
+  completed: {
+    type: Boolean,
+    required: true
+  }
 });
 
 var Todo = mongoose.model('Todo', todoSchema);
 
+
+
 //create a connection to our db
-mongoose.connect('mongodb://localhost/todoApplication')
+mongoose.connect('mongodb://localhost/todoApp');
 var port = process.env.PORT || 9000;
 
 server.use(express.static(path.join(__dirname,'public')));
 server.use(logger);
 
 server.use(bodyParser.json()); //for parsing application/json
+
 server.use(bodyParser.urlencoded({extended: true}));
 
 server.get('/', function(req, res){
@@ -42,9 +47,9 @@ server.get('/api/todos', function(req, res){
   });
 });
 
-server.post('/api/todos', function(req, res){
-  var desc =req.body.desc;
-  var completed = req.body.completed;
+
+server.post('/api/todos', function(req,res){
+  var desc = req.body.desc;
   var todoObj = {
     desc: desc,
     completed: false
@@ -52,6 +57,14 @@ server.post('/api/todos', function(req, res){
   Todo.create(todoObj, function(err, todo){
     if(err) throw err;
 
+    res.json(todo);
+  });
+});
+
+
+server.delete('/api/todos/:id', function(req, res){
+  Todo.findOneAndRemove({_id: req.params.id}, function(err, todo){
+    if(err) throw err;
     res.json(todo);
   });
 });
@@ -67,12 +80,6 @@ server.put('/api/todos/:id', function(req, res){
   Todo.findOneAndUpdate({_id: id}, update, {new: true}, function(err, todo){
     if(err) throw err;
 
-    res.json(todo);
-  });
-});
-server.delete('/api/todos/:id', function(req, res){
-  Todo.findOneAndRemove({_id: req.params.id}, function(err, todo){
-    if(err) throw err;
     res.json(todo);
   });
 });
