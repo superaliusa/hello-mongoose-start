@@ -38,7 +38,7 @@ server.get('/api/todos', function(req, res){
   Todo.find(function(err, todos){
     if(err) throw err;
 
-    res.json(todo);
+    res.json(todos);
   });
 });
 
@@ -50,16 +50,31 @@ server.post('/api/todos', function(req, res){
     completed: false
   };
   Todo.create(todoObj, function(err, todo){
+    if(err) throw err;
 
+    res.json(todo);
   });
 });
 
 server.put('/api/todos/:id', function(req, res){
-res.send('I updated a todo!');
-});
+  var id = req.params.id;
+  var desc = req.body.desc;
+  var completed = req.body.completed;
+  var update = {
+    desc: desc,
+    completed: completed
+  };
+  Todo.findOneAndUpdate({_id: id}, update, {new: true}, function(err, todo){
+    if(err) throw err;
 
+    res.json(todo);
+  });
+});
 server.delete('/api/todos/:id', function(req, res){
-res.send('Oh no! I deleted todo!');
+  Todo.findOneAndRemove({_id: req.params.id}, function(err, todo){
+    if(err) throw err;
+    res.json(todo);
+  });
 });
 server.listen(port, function(){
   console.log('Now listening on port ' + port);
