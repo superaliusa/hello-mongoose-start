@@ -79,7 +79,6 @@ server.put('/api/todos/:id', function(req, res){
   };
   Todo.findOneAndUpdate({_id: id}, update, {new: true}, function(err, todo){
     if(err) throw err;
-
     res.json(todo);
   });
 });
