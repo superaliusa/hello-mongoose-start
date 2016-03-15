@@ -6,21 +6,26 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.css'/>
   </head>
   <body ng-controller='TodoController'>
-      <div class="container">
-        <form action="" ng-submit="saveTodo()">
-          <input type="text" ng-model='newTodo.desc'>
-          <button type="submit">Save Todo</button>
-        </form>
-        <hr>
+    <div class='container'>
+      <form ng-submit="saveTodo()">
+        <input type="text" ng-model='newTodo.desc'>
+        <button type="submit">Save Todo</button>
+      </form>
+      <hr>
         <div ng-if='isEditing'>
-          <input type='text' ng-model='editingTodo.desc'>
-          <li class="well" ng-repeat="todo in todos">
-            {{todo.desc}} - {{todo._id}}
-            <button class='btn btn-danger btn-xs' type="button" ng-click="deleteTodo(todo)">x</button>
-            <button class='btn btn'></button>
+          <input type="text" ng-model='editingTodo.desc'>
+          <button type="button"
+          ng-click="updateTodo(editingTodo)">Save</button>
+        </div>
+        <ul>
+          <li class='well' ng-repeat="todo in todos">
+            {{todo.desc}}
+            <button type="button" class='btn btn-sm btn-danger'
+            ng-click="deleteTodo(todo)">X</button>
+            <button type="button" ng-click="editTodo(todo)">Edit</button>
           </li>
         </ul>
-      </div>
-
+    </div>
     <script src="js/app.js"></script>
   </body>
+</html>
