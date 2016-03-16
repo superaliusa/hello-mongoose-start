@@ -15,4 +15,4 @@ var todoSchema = new Schema({
 
 var Todo = mongoose.model('Todo', todoSchema);
 
-module.exports = Todo; //CommonJs
+module.exports = Todo; //CommonJ

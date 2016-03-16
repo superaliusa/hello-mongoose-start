@@ -4,9 +4,10 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Schema  = mongoose.Schema,
     bodyParser = require('body-parser'),
-    server  = express();
-    Todo = require('./models/todo.model.js');
+    server  = express()
+    Todo = require('./models/todo.model.js'),
     TodoCtrl = require('./controllers/todo.controller.js');
+
 
 
 
@@ -16,7 +17,7 @@ var port = process.env.PORT || 9000;
 
 server.use(express.static(path.join(__dirname,'public')));
 server.use(logger);
-server.use(bodyParser.json()); //for parsing application/json
+server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
 
 server.get('/', function(req, res){

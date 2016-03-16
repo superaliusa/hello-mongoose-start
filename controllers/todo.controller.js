@@ -10,7 +10,6 @@ var todoCtrl = {
 function getAllTodos(req, res){
   Todo.find(function(err, todos){
     if(err) throw err;
-
     res.json(todos);
   });
 }
@@ -23,7 +22,6 @@ function createTodo(req, res){
   };
   Todo.create(todoObj, function(err, todo){
     if(err) throw err;
-
     res.json(todo);
   });
 }
